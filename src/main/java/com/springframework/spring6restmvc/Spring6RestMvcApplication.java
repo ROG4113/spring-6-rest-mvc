@@ -1,4 +1,4 @@
-package com.springfranework.spring6restmvc;
+package com.springframework.spring6restmvc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
