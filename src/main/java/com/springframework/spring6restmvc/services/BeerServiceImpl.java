@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -76,5 +77,24 @@ public class BeerServiceImpl implements BeerService {
         log.debug("Get Beer By Id - in service. Id: " + id.toString());
 
         return beerMap.get(id);
+    }
+
+    @Override
+    public Beer saveNewBeer(Beer beer){
+        Beer savedBeer=beer
+                        .builder()
+                        .id(UUID.randomUUID())
+                        .createdDate(LocalDateTime.now())
+                        .updateDate(LocalDateTime.now())
+                        .beerName(beer.getBeerName())
+                        .beerStyle(beer.getBeerStyle())
+                        .quantityOnHand(beer.getQuantityOnHand())
+                        .upc(beer.getUpc())
+                        .price(beer.getPrice())
+                        .build();
+    
+        beerMap.put(savedBeer.getId(), savedBeer);
+
+        return savedBeer;                
     }
 }
