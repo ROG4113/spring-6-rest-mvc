@@ -22,10 +22,11 @@ import com.springframework.spring6restmvc.model.Beer;
 import com.springframework.spring6restmvc.services.BeerService;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/beer")
 public class BeerController {
