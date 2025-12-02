@@ -17,6 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springframework.spring6restmvc.model.Beer;
 import com.springframework.spring6restmvc.services.BeerService;
 import com.springframework.spring6restmvc.services.BeerServiceImpl;
@@ -29,12 +31,22 @@ public class BeerControllerTest {
     // BeerController beerController;
 
     @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
     MockMvc mockMvc;
 
     @MockBean
     BeerService beerService;
 
     BeerServiceImpl beerServiceImpl=new BeerServiceImpl();
+
+    @Test
+    void testCreateBeer() throws JsonProcessingException{
+        Beer beer=beerServiceImpl.listBeer().get(0);
+
+        System.out.println(objectMapper.writeValueAsString(beer));
+    }
 
     @Test
     void testListBeer() throws Exception{
