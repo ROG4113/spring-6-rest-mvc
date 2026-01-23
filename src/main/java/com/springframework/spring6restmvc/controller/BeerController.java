@@ -5,9 +5,7 @@ import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,14 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springframework.spring6restmvc.model.Beer;
 import com.springframework.spring6restmvc.services.BeerService;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,14 +36,14 @@ public class BeerController {
 
         beerService.patchBeerById(beerId, beer);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId){
         beerService.deleteBeerById(beerId);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(BEER_PATH_ID)
@@ -56,7 +51,7 @@ public class BeerController {
         
         beerService.updateBeerById(beerId, beer);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
 
@@ -67,7 +62,7 @@ public class BeerController {
         HttpHeaders header=new HttpHeaders();
         header.add("location", "/api/v1/beer/" + savedBeer.getId().toString());
 
-        return new ResponseEntity(header, HttpStatus.CREATED) ;
+        return new ResponseEntity<>(header, HttpStatus.CREATED) ;
     }
 
     @GetMapping(value=BEER_PATH)
