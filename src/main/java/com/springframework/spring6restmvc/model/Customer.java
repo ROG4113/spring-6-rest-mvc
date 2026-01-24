@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
-@JsonDeserialize(builder=Beer.BeerBuilder.class)
+@JsonDeserialize(builder=Customer.CustomerBuilder.class)
 @Builder
 @Data
 public class Customer {

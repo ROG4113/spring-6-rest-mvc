@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,6 +28,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity patchCustomerById(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer){
 
         customerService.patchCustomerById(customerId, customer);
@@ -63,7 +65,7 @@ public class CustomerController {
     }
 
     @GetMapping(value=CUSTOMER_PATH_ID)
-    public Customer getCustomerById(UUID id){
+    public Customer getCustomerById(@PathVariable("customerId") UUID id){
         return customerService.getCustomerById(id);
     }
 
