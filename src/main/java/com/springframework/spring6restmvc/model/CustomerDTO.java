@@ -9,15 +9,15 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
-@JsonDeserialize(builder=Customer.CustomerBuilder.class)
+@JsonDeserialize(builder=CustomerDTO.CustomerDTOBuilder.class)
 @Builder
 @Data
-public class Customer {
-    @JsonProperty("name")
-    private String name;
-    
+public class CustomerDTO {
     @JsonProperty("id")
     private UUID id;
+    
+    @JsonProperty("name")
+    private String name;
 
     @JsonProperty("version")
     private Integer version;

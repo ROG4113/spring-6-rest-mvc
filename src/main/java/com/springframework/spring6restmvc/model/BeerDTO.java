@@ -10,10 +10,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 
-@JsonDeserialize(builder=Beer.BeerBuilder.class)
+@JsonDeserialize(builder=BeerDTO.BeerDTOBuilder.class)
 @Builder
 @Data
-public class Beer {
+public class BeerDTO {
     @JsonProperty("id")
     private UUID id;
 

@@ -4,18 +4,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.springframework.spring6restmvc.model.Beer;
+import com.springframework.spring6restmvc.model.BeerDTO;
 
 public interface BeerService {
-    Optional<Beer> getBeerById(UUID id);
+    Optional<BeerDTO> getBeerById(UUID id);
 
-    List<Beer> listBeer();
+    List<BeerDTO> listBeer();
 
-    Beer saveNewBeer(Beer beer);
+    BeerDTO saveNewBeer(BeerDTO beer);
 
-    void updateBeerById(UUID beerId, Beer beer);
+    void updateBeerById(UUID beerId, BeerDTO beer);
 
     void deleteBeerById(UUID Id);
 
-    void patchBeerById(UUID beerId, Beer beer);
+    void patchBeerById(UUID beerId, BeerDTO beer);
 }
