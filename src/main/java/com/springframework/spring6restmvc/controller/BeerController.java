@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,11 +71,20 @@ public class BeerController {
         return beerService.listBeer();
     }
 
+    // // First way: Handles exceptions of only this controller not others(like customer controller)
+    // @ExceptionHandler(NotFoundException.class)
+    // public ResponseEntity handleNotFoundException(){
+
+    //     System.out.println("In the Exception Handler");
+
+    //     return ResponseEntity.notFound().build();
+    // }
+
     @GetMapping(value=BEER_PATH_ID)
     public Beer getBeerById(@PathVariable("beerId") UUID beerId){
         
         log.debug("Get Beer By Id - in controller");
 
-        return beerService.getBeerById(beerId);
+        return beerService.getBeerById(beerId).orElseThrow(NotFoundException::new);
     }
 }

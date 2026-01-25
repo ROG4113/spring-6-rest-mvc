@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -139,10 +140,20 @@ public class BeerControllerTest {
     }
 
     @Test
+    void getBeerByIdNotFound() throws Exception{
+        
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
+
+        mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
     void testGetBeerById() throws Exception {
         Beer testBeer=beerServiceImpl.listBeer().get(0);
 
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+        given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
         // System.out.println(beerController.getBeerById(UUID.randomUUID()));
         mockMvc.perform(get(BeerController.BEER_PATH_ID, testBeer.getId())
