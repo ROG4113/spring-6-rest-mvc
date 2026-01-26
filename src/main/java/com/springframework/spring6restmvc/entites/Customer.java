@@ -38,5 +38,5 @@ public class Customer {
     @JsonProperty("version")
     private Integer version;
     private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+    private LocalDateTime updateDate;
 }
