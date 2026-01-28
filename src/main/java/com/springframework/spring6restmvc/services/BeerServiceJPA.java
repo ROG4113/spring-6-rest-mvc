@@ -3,6 +3,7 @@ package com.springframework.spring6restmvc.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -24,9 +25,14 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public void deleteBeerById(UUID Id) {
+    public Boolean deleteBeerById(UUID id) {
         // TODO Auto-generated method stub
-        
+        if(beerRepository.existsById(id)){
+            beerRepository.deleteById(id);
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -60,16 +66,23 @@ public class BeerServiceJPA implements BeerService {
     }
 
     @Override
-    public void updateBeerById(UUID beerId, BeerDTO beer) {
+    public Optional<BeerDTO> updateBeerById(UUID beerId, BeerDTO beer) {
         // TODO Auto-generated method stub
-        beerRepository.findById(beerId).ifPresent((foundBeer)->{
+        AtomicReference<Optional<BeerDTO>> atomicReference=new AtomicReference<>();
+
+        beerRepository.findById(beerId).ifPresentOrElse(((foundBeer)->{
             foundBeer.setBeerName(beer.getBeerName());
             foundBeer.setBeerStyle(beer.getBeerStyle());
             foundBeer.setUpc(beer.getUpc());
             foundBeer.setPrice(beer.getPrice());
-            beerRepository.save(foundBeer);
+
+            atomicReference.set(Optional.of(beerMapper
+                                            .beerToBeerDto(beerRepository.save(foundBeer))));
+        }), ()->{
+            atomicReference.set(Optional.empty());
         });
         
+        return atomicReference.get();
     }
     
 }
