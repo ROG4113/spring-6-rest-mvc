@@ -34,7 +34,7 @@ public class BeerController {
     private final BeerService beerService;
 
     @PatchMapping(BEER_PATH_ID)
-    public ResponseEntity updateBeerPatchById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beer){
+    public ResponseEntity updateBeerPatchById(@PathVariable("beerId") UUID beerId, @Validated @RequestBody BeerDTO beer){
 
         beerService.patchBeerById(beerId, beer);
 

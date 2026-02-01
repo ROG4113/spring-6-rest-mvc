@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class BeerDTO {
     private UUID id;
 
     @JsonProperty("version")
+    @Version
     private Integer version;
 
     @JsonProperty("beerName")
@@ -28,15 +30,19 @@ public class BeerDTO {
     private String beerName;
     
     @JsonProperty("beerStyle")
+    @NotNull
     private BeerStyle beerStyle;
     
     @JsonProperty("upc")
+    @NotNull
+    @NotBlank
     private String upc;
     
     @JsonProperty("quantityOnHand")
     private Integer quantityOnHand;
     
     @JsonProperty("price")
+    @NotNull
     private BigDecimal price;
     
     private LocalDateTime createdDate;

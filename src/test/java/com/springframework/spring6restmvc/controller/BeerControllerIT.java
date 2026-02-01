@@ -1,22 +1,36 @@
 package com.springframework.spring6restmvc.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springframework.spring6restmvc.entites.Beer;
 import com.springframework.spring6restmvc.mapper.BeerMapper;
 import com.springframework.spring6restmvc.model.BeerDTO;
 import com.springframework.spring6restmvc.repositories.BeerRepository;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 public class BeerControllerIT {
@@ -29,6 +43,36 @@ public class BeerControllerIT {
 
     @Autowired
     BeerMapper beerMapper;
+
+    @Autowired
+    WebApplicationContext wac;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp(){
+        mockMvc=MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    @Test
+    void testPatchBeerBadName() throws Exception{
+        Beer beer=beerRepository.findAll().get(0);
+        Map<String, Object> beerMap=new HashMap<>();
+        beerMap.put("beerName", "New Name 123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789123456789");
+
+        MvcResult result=mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(beerMap)))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.length()", is(4)))
+        .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+    }
 
     @Test
     void testDeleteByIdNotFound(){
