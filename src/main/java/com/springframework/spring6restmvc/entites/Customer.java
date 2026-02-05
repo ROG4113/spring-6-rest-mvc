@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,7 +30,8 @@ public class Customer {
     @Id
     @GeneratedValue(generator ="UUID")
     @GenericGenerator(name="UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(length =36, columnDefinition = "varchar", updatable = false, nullable = false)
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(length =36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     @JsonProperty("id")
     private UUID id;
     @JsonProperty("name")
