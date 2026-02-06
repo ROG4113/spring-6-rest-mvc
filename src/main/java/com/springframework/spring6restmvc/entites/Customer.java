@@ -37,6 +37,9 @@ public class Customer {
     @JsonProperty("name")
     private String name;
 
+    @Column(length=255)
+    private String email;
+
     @Version
     @JsonProperty("version")
     private Integer version;
