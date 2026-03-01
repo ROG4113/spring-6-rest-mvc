@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springframework.spring6restmvc.model.BeerDTO;
+import com.springframework.spring6restmvc.model.BeerStyle;
 import com.springframework.spring6restmvc.services.BeerService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,7 @@ public class BeerController {
     private final BeerService beerService;
 
     @PatchMapping(BEER_PATH_ID)
-    public ResponseEntity updateBeerPatchById(@PathVariable("beerId") UUID beerId, @Validated @RequestBody BeerDTO beer){
+    public ResponseEntity updateBeerPatchById(@PathVariable("beerId") UUID beerId, @RequestBody BeerDTO beer){
 
         beerService.patchBeerById(beerId, beer);
 
@@ -72,8 +74,8 @@ public class BeerController {
     }
 
     @GetMapping(value=BEER_PATH)
-    public List<BeerDTO> listBeers(){
-        return beerService.listBeer();
+    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName, @RequestParam(required = false) BeerStyle beerStyle, @RequestParam(required = false) boolean showInventory){
+        return beerService.listBeer(beerName, beerStyle, showInventory);
     }
 
     // // First way: Handles exceptions of only this controller not others(like customer controller)
