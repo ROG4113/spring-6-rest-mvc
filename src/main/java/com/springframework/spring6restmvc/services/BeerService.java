@@ -1,8 +1,9 @@
 package com.springframework.spring6restmvc.services;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 
 import com.springframework.spring6restmvc.model.BeerDTO;
 import com.springframework.spring6restmvc.model.BeerStyle;
@@ -10,7 +11,7 @@ import com.springframework.spring6restmvc.model.BeerStyle;
 public interface BeerService {
     Optional<BeerDTO> getBeerById(UUID id);
 
-    List<BeerDTO> listBeer(String beerName, BeerStyle beerStyle, Boolean showInventory);
+    Page<BeerDTO> listBeer(String beerName, BeerStyle beerStyle, Boolean showInventory, Integer pageNumber, Integer pageSize);
 
     BeerDTO saveNewBeer(BeerDTO beer);
 
