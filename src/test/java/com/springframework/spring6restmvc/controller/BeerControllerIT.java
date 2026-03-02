@@ -69,7 +69,7 @@ public class BeerControllerIT {
                     .queryParam("pageNumber", "2")
                     .queryParam("pageSize", "50"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.size()", is(336)))
+                .andExpect(jsonPath("$.content.size()", is(50)))
                 .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.notNullValue()));
     }
 
@@ -80,7 +80,7 @@ public class BeerControllerIT {
                     .queryParam("beerStyle", BeerStyle.IPA.name())
                     .queryParam("showInventory", "true"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.size()", is(336)))
+                .andExpect(jsonPath("$.content.size()", is(25)))
                 .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.notNullValue()));
     }
 
@@ -91,7 +91,7 @@ public class BeerControllerIT {
                     .queryParam("beerStyle", BeerStyle.IPA.name())
                     .queryParam("showInventory", "false"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.size()", is(336)))
+                .andExpect(jsonPath("$.content.size()", is(25)))
                 .andExpect(jsonPath("$.content[0].quantityOnHand").value(IsNull.nullValue()));
     }
 
@@ -101,7 +101,7 @@ public class BeerControllerIT {
                     .queryParam("beerName", "IPA")
                     .queryParam("beerStyle", BeerStyle.IPA.name()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.size()", is(336)));
+                .andExpect(jsonPath("$.content.size()", is(25)));
     }
 
     @Test
@@ -116,7 +116,7 @@ public class BeerControllerIT {
         mockMvc.perform(get(beerController.BEER_PATH)
             .queryParam("beerName", "IPA"))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.content.size()", is(336)));
+            .andExpect(jsonPath("$.content.size()", is(25)));
     }
 
     @Test

@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -106,16 +107,16 @@ public class BeerServiceJPA implements BeerService {
         return PageRequest.of(queryPageNumber, querypageSize, sort);
     }
 
-    private Page<Beer> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, PageRequest pageRequest) {
-        return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%"+beerName+"%", beerStyle, null);
+    private Page<Beer> listBeersByNameAndStyle(String beerName, BeerStyle beerStyle, Pageable pageable) {
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCaseAndBeerStyle("%"+beerName+"%", beerStyle, pageable);
     }
 
-    private Page<Beer> listBeersByStyle(BeerStyle beerStyle, PageRequest pageRequest) {
-        return beerRepository.findAllByBeerStyle(beerStyle, null);
+    private Page<Beer> listBeersByStyle(BeerStyle beerStyle, Pageable pageable) {
+        return beerRepository.findAllByBeerStyle(beerStyle, pageable);
     }
 
-    private Page<Beer> listBeersByName(String beerName, PageRequest pageRequest){
-        return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%"+beerName+"%", null);
+    private Page<Beer> listBeersByName(String beerName, Pageable pageable){
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%"+beerName+"%", pageable);
     }
 
     @Override
