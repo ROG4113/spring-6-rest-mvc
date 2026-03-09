@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.sql.JDBCType;
 import java.sql.SQLType;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,6 +21,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Version;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -72,6 +77,24 @@ public class Beer {
     @JsonProperty("price")
     @NotNull
     private BigDecimal price;
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable( name = "beer_category",
+        joinColumns = @JoinColumn(name = "beer_id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories=new HashSet<>();
+
+    public void addCategory(Category category){
+        this.categories.add(category);
+        category.getBeers().add(this);
+    }
+
+    public void removeCategory(Category category){
+        this.categories.remove(category);
+        category.getBeers().remove(this);
+    }
     
     @CreationTimestamp
     private LocalDateTime createdDate;
