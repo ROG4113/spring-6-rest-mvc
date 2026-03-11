@@ -17,6 +17,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +33,7 @@ public class BeerOrder {
     
     
     public BeerOrder(UUID id, Long version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef,
-            Customer customer, Set<BeerOrderLine> beerOrderLine) {
+            Customer customer, Set<BeerOrderLine> beerOrderLine, BeerOrderShipment beerOrderShipment) {
         this.id = id;
         this.version = version;
         this.createdDate = createdDate;
@@ -40,6 +41,7 @@ public class BeerOrder {
         this.customerRef = customerRef;
         this.setCustomer(customer);
         this.beerOrderLine = beerOrderLine;
+        this.beerOrderShipment=beerOrderShipment;
     }
     //  REASON FOR MANUAL CONSTRUCTOR:
     //  Lombok's @Builder normally uses a generated @AllArgsConstructor, which uses 
@@ -79,4 +81,7 @@ public class BeerOrder {
     
     @OneToMany(mappedBy = "beerOrder")
     private Set<BeerOrderLine> beerOrderLine;
+
+    @OneToOne
+    private BeerOrderShipment beerOrderShipment;
 }
