@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.springframework.spring6restmvc.entites.Beer;
 import com.springframework.spring6restmvc.entites.BeerOrder;
+import com.springframework.spring6restmvc.entites.BeerOrderShipment;
 import com.springframework.spring6restmvc.entites.Customer;
 
 @SpringBootTest
@@ -35,7 +36,8 @@ public class BeerOrderRepositoryTest {
     void testBeerOrders(){
         BeerOrder beerOrder=BeerOrder.builder()
         .customerRef("Test order")
-        .customer(testCustomer)                            
+        .customer(testCustomer)
+        .beerOrderShipment(BeerOrderShipment.builder().trackingNumber("1234").build())                            
         .build();
 
         BeerOrder savedBeerOrder=beerOrderRepository.save(beerOrder);

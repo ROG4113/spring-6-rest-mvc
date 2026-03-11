@@ -11,6 +11,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 import org.springframework.data.annotation.Version;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class BeerOrder {
         this.customerRef = customerRef;
         this.setCustomer(customer);
         this.beerOrderLine = beerOrderLine;
-        this.beerOrderShipment=beerOrderShipment;
+        this.setBeerOrderShipment(beerOrderShipment);
     }
     //  REASON FOR MANUAL CONSTRUCTOR:
     //  Lombok's @Builder normally uses a generated @AllArgsConstructor, which uses 
@@ -76,12 +77,17 @@ public class BeerOrder {
         customer.getBeerOrders().add(this);
     }
 
+    public void setBeerOrderShipment(BeerOrderShipment beerOrderShipment){
+        this.beerOrderShipment=beerOrderShipment;
+        beerOrderShipment.setBeerOrder(this);
+    }
+
     @ManyToOne
     private Customer customer;
     
     @OneToMany(mappedBy = "beerOrder")
     private Set<BeerOrderLine> beerOrderLine;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private BeerOrderShipment beerOrderShipment;
 }
