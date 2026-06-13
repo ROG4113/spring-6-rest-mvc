@@ -107,7 +107,7 @@ public class BeerControllerIT {
         mockMvc.perform(get(beerController.BEER_PATH)
                         .with(httpBasic(BeerControllerTest.USERNAME, BeerControllerTest.PASSWORD))
                     .queryParam("beerName", "IPA")
-                    .queryParam("beerStyle", BeerStyle.IPA.name()))
+                    .queryParam("beerStyle", BeerStyle.IPA.name())) 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content.size()", is(25)));
     }
